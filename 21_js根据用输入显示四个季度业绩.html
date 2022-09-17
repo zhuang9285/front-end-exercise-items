@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>21_js根据用输入显示季度业绩柱状图</title>
+  <style>
+    .box{
+      display: flex;
+      justify-content: space-around;
+      align-items: flex-end;
+      margin: 100px auto;
+      width: 400px;
+      height: 300px;
+      border-left: 1px solid pink;
+      border-bottom: 1px solid pink;
+    }
+    .box > div{
+      position: relative;
+      width: 50px;
+      height: 100px;
+      background-color: pink;
+    }
+    .box > div > span{
+      position: absolute;
+      top: -23px;
+      width: 50px;
+      text-align: center;
+    }
+    .box > div > p{
+      position: absolute;
+      bottom: -40px;
+      left: -15px;
+      width: 80px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+
+  <script>
+    let arr = [];
+    for(let i = 0; i < 4; i++){
+      let num = +prompt(`请输入第${i+1}季度的业绩`);
+      arr.push(num);
+    }
+    console.log(arr);
+
+    let str = '<div class="box">';
+    for(let j = 0; j < 4; j++ ) {
+      str += `
+      <div style='height:${arr[j]}px'>
+        <span>${arr[j]}</span>
+        <p>第${j+1}季度</p>
+      </div>
+      `;
+    }
+    str += '</div>';
+
+    document.write(str);
+    console.log(str);
+
+
+
+
+
+
+  </script>
+</body>
+</html>

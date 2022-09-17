@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    // 用js编写ATM有查询，存入，取出，退出功能
+    let money = 0;
+    let option = +prompt(`
+    请输入要进行的操作  
+      1.查询
+      2.存入
+      3.取钱
+      4.退出
+    `);
+    if( option < 1 || option > 4 || (option * 10)% 10 !==0 ){
+      alert('输入有误，请重新输入');
+    }
+
+    while(option == '1'){
+      if(money === 0){
+        alert('你的账户余额为0,请先存入');
+        option = +prompt(`
+      请输入要进行的操作  
+      1.查询
+      2.存入
+      3.取钱
+      4.退出
+    `);
+      }else{
+        alert('尊贵的我行用户，您的账户余额为:￥'+ money);
+      }
+    }
+    while(option == '2'){
+      let inputMoney = +prompt('请输入要存入的金额(单次不超过20,000):');
+      money += inputMoney;
+      alert('尊贵的我行用户，您已成功存入:￥'+ inputMoney+',当前可用余额:'+money);
+        option = +prompt(`
+      请输入要进行的操作  
+      1.查询
+      2.存入
+      3.取钱
+      4.退出
+    `);
+    }
+    while(option == '3'){
+      let outMoney = +prompt('请输入要取出的金额(单次不超过20,000,且面值为100):');
+      if(outMoney <= money){
+        if(outMoney % 100 == 0){
+          money -= outMoney;
+          alert('您已成功取出:￥'+ outMoney+'元,当前可用余额:'+money);
+          option = +prompt(`
+      请输入要进行的操作  
+      1.查询
+      2.存入
+      3.取钱
+      4.退出
+    `);
+          
+        }else{
+          alert('金额输入有误，请输入整数');
+        }       
+      }else{
+        alert('余额不足，请重新操作');
+        option = +prompt(`
+      请输入要进行的操作  
+      1.查询
+      2.存入
+      3.取钱
+      4.退出
+    `);
+      }
+    }
+
+  
+    while(option == '4'){
+      alert('感谢您的使用，欢迎下次光临');
+    }
+
+
+
+
+  </script>
+</body>
+</html>
