@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    #box{
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: whitesmoke;
+      overflow: hidden;
+    }
+    #brand{
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      padding-top: 10px;
+      width: 200px;
+      height: 100px;
+      border: 1px solid #666;
+      user-select: none;
+    }
+    #brand h4{
+      padding-left: 20px;
+      height: 24px;
+      line-height: 24px;
+      font-size: 24px;
+      font-weight: 400;
+    }
+    #brand p{
+      padding-left: 15px;
+      margin-top: 10px;
+    }
+    #brand p:first-child{
+      border-top: 1px dotted rgb(160, 160, 160);
+    }
+    #mouse_isUp,
+    #mouse_zB{
+      color: green;
+      font-weight: 500;
+    }
+    #new_mouse{
+      position: absolute;
+      width: 30px;
+      height: 40px;
+      background:url('./img/ms.svg') no-repeat;
+      background-size: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="box">
+    <i id="new_mouse"></i>
+    <div id="brand">
+      <h4>当前鼠标状态</h4>
+      <p>
+        <span>按下状态:</span>&nbsp;
+        <span id="mouse_isUp">鼠标未按下</span>
+      </p>
+      <p>
+        <span>当前坐标:</span>&nbsp;
+        <span id="mouse_zB"></span>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // 定义鼠标x轴的位置
+    let x = 0;
+    // 定义鼠标y轴的位置
+    let y = 0;
+    // 获取整个页面范围
+    let box = document.getElementById('box');
+    // 页面上显示鼠标是否按下
+    let mouse_IsUp = document.getElementById('mouse_isUp');
+    // 页面上显示鼠标的x轴y轴坐标
+    let mouse_zb = document.getElementById('mouse_zB');
+    // 鼠标状态 是否抬起,是否移动(该值尚未使用,后期可能使用)
+
+    let newMouse = document.getElementById('new_mouse');
+
+    const mouseState = {
+      isUp: true,
+      isMove: false
+    };
+    // 获取盒子的最左边和最上边的坐标
+    // 此案例中页面为100%,即坐标是(0,0) 其实可以直接设定起始坐标为(0,0),但其他项目中未必如此,
+    // 为代码增强复用性,采用动态获取盒子左上角坐标
+    const rect = box.getBoundingClientRect();
+    // *TODO 页面初始化后加载鼠标默认坐标
+
+    
+    // 监听鼠标按下状态
+    box.addEventListener('mousedown', e =>{
+      mouseState.isUp = false;
+      mouse_IsUp.innerHTML = '鼠标按下';
+      mouse_IsUp.style.color = 'red'
+    })
+    // 监听鼠标抬起状态
+    box.addEventListener('mouseup', e =>{
+      mouseState.isUp = true;
+      mouse_IsUp.innerHTML = '鼠标抬起';
+      mouse_IsUp.style.color = 'green'
+    })
+    // 监听鼠标移出, 新光标样式消失
+    box.addEventListener('mouseout', e =>{
+      newMouse.style.display = 'none';    
+    })
+    // 监听鼠标移入，新光标样式出现
+    box.addEventListener('mouseover', e =>{
+      newMouse.style.display = 'block';   
+      box.style.cursor = 'none'; 
+    })
+
+
+    // 监听鼠标坐标
+    box.addEventListener('mousemove', e =>{
+      x = e.clientX - rect.left;
+      y = e.clientY - rect.top;
+      mouse_zb.innerHTML = x + ' , ' + y;
+      newMouse.style.left = x + 'px';
+      newMouse.style.top = y +'px';
+      mouse_zb.style.color = 'red';
+      // 设置定时器,当鼠标0.5s内未移动时,将坐标颜色由红色改为绿色
+      setTimeout(()=>{
+        mouse_zb.style.color = 'green' 
+      },500)
+    })
+    
+
+
+    
+
+
+  </script>
+</body>
+</html>
