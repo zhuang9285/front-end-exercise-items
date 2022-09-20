@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    @keyframes taichi{
+      from{
+        transform: rotate( 0deg);
+      }
+      to{
+        transform: rotate( 360deg);
+      }
+    }
+
+    *{
+      margin: 0;
+      padding: 0;
+    }
+    body{
+      background-color: rgb(246, 246, 246);
+    }
+    .taichi{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin: -200px  0 0 -200px;
+      width: 400px;
+      height: 400px;
+      background-color: aquamarine;
+      border-radius: 50%;
+      animation: taichi  6s linear infinite normal;
+      transition: all;
+    }
+    .white{
+      position: absolute;
+      width: 200px;
+      height: 400px;
+      background-color: #fff;
+      border-radius:200px 0 0 200px;
+    }
+    .half_circle1{
+      position: absolute;
+      top: 200px;
+      left: 100px;
+      width: 100px;
+      height: 200px;
+      background-color: #333;
+      border-radius: 100px 0 0 100px;
+    }
+    .block{
+      position: absolute;
+      right: 0;
+      width: 200px;
+      height: 400px;
+      background-color: #333;
+      border-radius:0 200px 200px 0;
+    }
+    .half_circle2{
+      position: absolute;
+      width: 100px;
+      height: 200px;
+      background-color: #fff;
+      border-radius: 0 100px 100px 0;
+    }
+    .eye_b{
+      position: absolute;
+      top: 50px;
+      left: 150px;
+      width: 100px;
+      height: 100px;
+      background-color: #333;
+      border-radius: 50%;
+      z-index: 11;
+    }
+    .eye_w{
+      position: absolute;
+      top: 250px;
+      left: -40px;
+      width: 100px;
+      height: 100px;
+      background-color: #fff;
+      border-radius: 50%;
+      z-index: 11;
+    }
+  </style>  
+</head>
+<body>
+  <div class="taichi"> 
+      <div class="white">
+        <div class="half_circle1"></div>
+        <div class="eye_b"></div>
+      </div>
+      <div class="block">
+        <div class="half_circle2"></div>
+        <div class="eye_w"></div>
+      </div>  
+    </div>  
+</body>
+</html>
