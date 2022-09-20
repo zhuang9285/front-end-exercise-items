@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>js用鼠标控制正方体的旋转v0.6</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    i{
+      font-style: normal;
+    }
+    input,button{
+      outline: none;
+    }
+    #demo{
+      position: absolute;
+      width: 1100px;
+      height: 100%;
+      border-right: 1px solid #999;
+      /* 设置文字不可选中 */
+      user-select: none;
+      overflow: hidden;
+    }
+    /* 正方体样式  box*/
+    .box{
+      position: relative;
+      margin: 100px 0 0 100px;
+      width: 300px;
+      height: 300px;
+      transform: rotateX(0deg) rotateY(0deg)  rotateZ(0deg);
+      transform-style: preserve-3d;
+      /* perspective: 500px; */
+      transform-origin: center center;
+    }
+    .box  > div{
+      position: absolute;
+      margin-top: -100px;
+      margin-left: -100px;
+      top: 50%;
+      left: 50%;
+      width: 200px;
+      height: 200px;
+      border: 1px solid #999;
+      line-height: 200px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 30px;
+    }
+    .box .cube_left{
+      transform: translateX(-100px) rotateY(-90deg);
+      background-color: rgba(100, 149, 237, .6);
+    }
+    .box .cube_right{
+      transform: translateX(100px) rotateY(90deg);
+      background-color: rgba(135, 206, 235, .6);
+    }
+    .box .cube_front{
+      transform: translateZ(100px);
+      background-color: rgba(255, 192, 203, .6);
+    }
+    .box .cube_back{
+      transform: translateZ(-100px);
+      background-color: rgba(127, 255, 0, .6);
+    }
+    .box .cube_top{
+      transform: translateY(100px) rotateX(90deg);
+      background-color: rgba(240, 248, 255, .6);      
+    }
+    .box .cube_bottom{
+      transform: translateY(-100px) rotateX(-90deg);
+      background-color: rgba(189, 183, 107, .6);
+    }
+
+    /* 控制台样式 #controls */
+    .controls{
+      position: absolute;
+      padding: 20px;
+      right: 10px;
+      width: 300px;
+      height: 100%;
+    }
+    .controls h3{
+      height: 30px 30px 60px 30px;
+      line-height: 30px;
+      font-size: 30px;
+      font-weight: 400;
+    }
+    .rotate_angle{
+      margin: 20px 0;
+    }
+    .rotate_angle input{
+      margin-top: 10px;
+      width: 50px; 
+    }
+    .rotate_angle #ag_submit{
+      margin: 20px 0;
+      width: 200px;
+      height: 30px;
+      background-color: skyblue;
+      border: 0;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 16px;
+      transition: all .3s;
+    }
+    .rotate_angle #ag_submit:active{
+      font-size: 17px;
+    }
+    .speed{
+      position: relative;
+      height: 100px;
+      overflow: hidden;
+    }
+    .speed .bar{
+      position: absolute;
+      width: 203px;
+      height: 18px;
+      border: 2px solid #999;
+      border-radius: 8px;
+      box-sizing: border-box;
+      z-index: 1;
+    }
+    /* 此处的top：-1px 是为了处理盒子间空隙 */
+    .speed #percent{
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      width: 100px;
+      height: 16px;
+      background-color: hotpink;
+      border-radius: 8px;
+    }
+    .bar > i{
+      position: absolute;
+      top: -1px;
+      width: 100px;
+      height: 16px;
+    }
+    .bar #slower{
+      left: 0;
+    }
+    .bar #faster{
+      right: 0;
+    }
+    #rotate_reset{
+      width: 200px;
+      height: 30px;
+      background-color: rgb(95, 158, 160);
+      border: 0;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 16px;
+      transition: all .3s;
+      box-shadow: 2px 1px 10px 10px rgb(245, 245, 245);
+    }
+    #rotate_reset:active{
+      margin-top: 1px;
+      background-color: rgb(95, 158, 180);
+      font-size: 17px;
+    }
+  </style>
+</head>
+<body>
+  <div class="controls">
+    <h3>控制台</h3>
+    <br>
+    <p>(注：左侧点击鼠标可以拖动方块)</p>
+    <!-- 旋转至指定角度 -->
+    <div class="rotate_angle">
+      <p>请输入要旋转的角度</p>
+      <!-- x -->
+      x角度:<input id="input_x" type="text" value="0" > deg <br>
+      <!-- y -->
+      y角度:<input id="input_y" type="text" value="0" > deg<br>
+      <!-- z -->
+      z角度:<input id="input_z" type="text" value="0" > deg <br>
+      <button id="ag_submit">提交输入值</button>
+    </div>
+    <!-- 设置 速度条-->
+    <div class="speed">
+      <p>速度调节: <span id="speed_num">5</span></p>
+      <div class="bar">
+        <div id="percent"></div>
+        <!-- 减速 -->
+        <i id="slower"></i>
+        <!-- 加速 -->
+        <i id="faster"></i>
+      </div>
+    </div>
+    <!-- 重置按钮 -->
+    <div>
+      <button id="rotate_reset">旋转重置</button>
+    </div>
+  </div>
+  <div id="demo">
+    <div class="box">
+      <!-- 正方体盒子的六个面 -->
+      <div class="cube_left"></div>
+      <div class="cube_right"></div>
+      <div class="cube_front"></div>
+      <div class="cube_back"></div>
+      <div class="cube_top"></div>
+      <div class="cube_bottom"></div>
+    </div>
+  </div>
+
+  <script>
+
+    /**
+     * 目前主要待解决BUG
+     * 1.输入x,y,z值提交以后，再在左侧区域点击鼠标推拽旋转盒子没有反应。
+     * 
+     */
+
+
+    // 获取body,即获取鼠标活动范围
+    let eara = document.getElementById('demo');;
+    // 获取盒子的
+    let cube = document.querySelector('.box');
+    // 定义 x,y,z轴上的角度
+    let x = 0, 
+        y = 0,
+        z = 0;
+
+    // 控制台部分
+    // 手动输入x,y,z坐标值
+    let input_x = document.getElementById('input_x');
+    let input_y = document.getElementById('input_y');
+    let input_z = document.getElementById('input_z');
+    // 提交按钮，提交更新最新的x,y,z值
+    let angle_submit = document.getElementById('ag_submit');
+    // 重置按钮，点击将盒子的rotate角度清零
+    let rt_reset = document.getElementById('rotate_reset'); 
+    // 定义盒子的按下状态
+    let isMouseDown = false;
+    // 获取盒子的大小
+    let rect = eara.getBoundingClientRect();
+    // 控制模块内调节旋转速度的进度条和加速减速按钮
+    // 速度变量,范围1-10，默认为5
+    let s = 5;
+    // 速度数字展示模块
+    let spd_num = document.getElementById('speed_num');
+    // 速度条展示模块
+    let bar_pct = document.getElementById('percent');
+    // 减速按钮
+    let spd_slower = document.getElementById('slower');
+    // 加速按钮
+    let spd_faster = document.getElementById('faster');
+
+    // 监听x,y,z输入值，获取最新角度值
+    input_x.oninput = () => {
+      input_x.value -= 0;
+      x = input_x.value ;
+    }
+    input_y.oninput = () => {
+      input_y.value -= 0;
+      y = input_y.value ;
+    }
+    input_z.oninput = () => {
+      input_z.value -= 0;
+      z = input_z.value ;
+    }
+
+    // 监听提交按钮，获取x,y,z值传给正方体
+    angle_submit.onclick = () => {
+      cube.style.transform = 'rotateX('+ x +'deg) rotateY(' + y + 'deg) rotateZ(' + z + 'deg)';
+      input_x.value = 0;
+      input_y.value = 0;
+      input_z.value = 0;
+
+    }
+
+    // 监听减速按钮
+    spd_slower.onclick = () => {
+      // 速度最小为 1
+      if(s > 1 ){
+        s -= 1;
+        spd_num.innerHTML = s;
+        bar_pct.style.width = s * 20 + "px";
+      }
+    }
+    // 监听加速按钮
+    spd_faster.onclick = () => {
+      // 速度最大为 10
+      if(s < 10 ){
+        s += 1;
+        spd_num.innerHTML = s;
+        bar_pct.style.width = s * 20 + "px";
+      }
+    }
+    // 监听鼠标按下状态
+    demo.addEventListener('mousedown',e => {
+      isMouseDown = true;
+    });
+    // 监听鼠标抬起状态
+    demo.addEventListener('mouseup',e => {
+      isMouseDown = false;
+    });
+    // 监听鼠标移动，设置盒子的旋转角度
+    demo.addEventListener('mousemove',e => {
+     
+      let a = 0, b = 0;
+      if(isMouseDown === true){
+        console.log(111);
+        // o为临时变量，仅在函数内保存最终的速度换算比例
+        // 这里的确可以简写，为方便理解，不做简化处理
+        // 这里原值为400，但是当s取最大速度10时，o 为 0 ,0不能做除数，因此设为401
+        let o = 401 + (400 - 80 * s);
+        a = +(e.pageX / o).toFixed();
+        b = +(e.pageY / o).toFixed();
+        x += a;
+        y += b;
+        console.log(x,y);
+        cube.style.transform = 'rotateX('+ x +'deg) rotateY('+ y + 'deg) rotateZ(0deg)';
+      }
+    });
+
+    // 监听重置按钮点击事件
+    rt_reset.onclick = () => {
+      cube.style.transform = 'rotateX(0deg) rotateY(0deg) rotateZ(0deg)';
+    }
+  </script>
+</body>
+</html>
