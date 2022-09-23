@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        ul {
+            list-style: none;
+            padding-top: 15px;
+        }
+        .box {
+            width: 350px;
+            height: 420px;
+            border: 1px solid #000;
+            margin: 100px auto;
+        }
+        li {
+            float: left;
+            width: 20%;
+            text-align: center;
+        }
+        img:hover {
+            outline: 3px solid #0094ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div>
+            <img src="images/b1.jpg" id="big" alt=""/>
+        </div>
+        <div>
+            <ul id="ul">
+                <!--data-src是自定义属性，存放对应大图的src-->
+                <li aaa="images/b1.jpg"><img src="images/s1.jpg"  alt=""/></li>
+                <li aaa="images/b2.jpg"><img src="images/s2.jpg"  alt=""/></li>
+                <li aaa="images/b3.jpg"><img src="images/s3.jpg"  alt=""/></li>
+                <li aaa="images/b4.jpg"><img src="images/s4.jpg"  alt=""/></li>
+                <li aaa="images/b5.jpg"><img src="images/s5.jpg"  alt=""/></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        /* 
+        排他:  点击下面img, 上面img显示对应的图片
+        */
+
+
+
+    </script>
+    
+</body>
+</html>
