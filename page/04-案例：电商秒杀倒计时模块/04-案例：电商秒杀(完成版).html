@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Document</title>
+  <style>
+    div{
+      margin: 200px auto;
+      width: 400px;
+      height: 120px;
+      font-size: 50px;
+    }
+    span {
+      display: inline-block;
+      width: 100px;
+      height: 100px;
+      background-color: #000;
+      color: #fff;
+      font-size: 50px;
+      text-align: center;
+      line-height: 100px;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <span id="hour">01</span> : <span id="minute">03</span> : <span id="second">10</span>
+  </div>
+
+  <script>
+    /*
+      思路:
+      设置一个计时器,间隔时间1秒钟,
+      获取时分秒span标签的文本, 秒--, 重新赋值给span标签
+    */
+    let hourSpan = document.getElementById('hour');
+    let minuteSpan = document.getElementById('minute');
+    let secondSpan = document.getElementById('second');
+
+    let res = setInterval(() => {
+      // 注意 加号，进行隐式数据转换，字符串转为数字，否则会出现不断补零的效果
+      let h = +hourSpan.innerHTML; 
+      let m = +minuteSpan.innerHTML;
+      let s = +secondSpan.innerHTML;
+
+      s--;
+      if(s < 0){
+        s = 59;
+        m--;
+      }
+      if(m < 0){
+        m = 59;
+        h--;
+      }
+
+      // 补零
+      h = h < 10 ? '0'+h : h;
+      m = m < 10 ? '0'+m : m;
+      s = s < 10 ? '0'+s : s;
+
+      hourSpan.innerHTML = h;
+      minuteSpan.innerHTML = m;
+      secondSpan.innerHTML = s;
+
+      if(s == 0 && m == 0 && h == 0){
+        // 如果时间都等于零，清除定时器
+        clearInterval(res);
+      }
+    }, 1000);
+
+  </script>
+</body>
+
+</html>
