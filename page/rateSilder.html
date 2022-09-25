@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body{
+      /* 禁止元素拖拽 */
+      -webkit-user-drag: none;
+      background-color: rgb(225, 225, 225);
+    }
+    @keyframes boxUp {
+      to {
+        box-shadow: 5px 3px 20px 2px darkgrey;
+      }
+    }
+    .box{
+      position: relative;
+      margin: 200px auto;
+      width: 500px;
+      height: 300px;
+      border: 3px solid rgb(200, 200, 200);
+      border-radius: 10px;
+      animation: boxUp .6s forwards;
+    }
+    .process{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      width: 306px;
+      height: 12px;
+      background-color: rgb(200, 200, 200);
+      border-radius: 6px;
+    }
+    .process .pcs_left{
+      position: absolute;
+      width: 150px;
+      height: 100%;
+      /* background-color: #ff69b4; */
+      background-image: linear-gradient(45deg, pink, hotpink );
+      border-radius: 6px; 
+    }
+    .process .percent {
+      position: absolute;
+      top: -5px;
+      left: 150px;
+      transform: translateX(-20px);
+      width: 45px;
+      height: 70px;
+      z-index: 10;
+    }
+    .process .percent .dot_eara{
+      position: absolute;
+      width: 45px;
+      height: 25px;
+    }
+    .percent .dot_eara .dot{
+      display: block;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 22px;
+      height: 22px;
+      background-color: #fff;
+      border-radius: 50%;
+      border: 1px solid rgb(240, 240, 240);
+    }
+    .dot_eara .dot span{
+      display: block;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%,-50%);
+      width: 10px;
+      height: 10px;
+      background-color: #ff69b4;
+      border-radius: 50%;         
+    }
+    .dot_eara .dot span:hover{
+      width: 16px;
+      height: 16px;
+    }
+
+    .process .percent .brand{
+      display: none;
+      position: absolute;
+      top: 29px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 40px;
+      height: 30px;
+      line-height: 30px;
+      background-color: #fff;
+      border: 1px solid rgb(220, 220, 220);
+      border-radius: 5px;
+      text-align: center;
+      color: #666;
+      font-size: 12px;
+      user-select: none;
+      
+    }
+
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="process">
+      <!-- 进度点 -->
+      <div class="percent">
+        <!-- 圆点区域，用于提高圆点的可点击区域 -->
+        <div class="dot_eara">
+          <!-- 圆点 -->
+          <i class="dot">
+            <!-- 圆点中心的圆点 -->
+            <span></span>
+          </i>
+        </div>
+        <!-- 百分比显示 -->
+        <div class="brand"></div>
+      </div>
+      <!-- left -->
+      <div class="pcs_left"></div>
+    </div>
+  </div>
+<script>
+  // 获取元素(之前都使用的getElementById,因此此项目中完全使用querySelector)
+  let box = document.querySelector('.box');
+  let process = document.querySelector('.process');
+  let left = document.querySelector('.pcs_left');
+  let percent = document.querySelector('.percent');
+  let dot_eara = document.querySelector('.dot_eara');
+  let dot = document.querySelector('.dot');
+  let brand = document.querySelector('.brand');
+
+  // 鼠标按下状态
+  let isMouseDown = false;
+  // 圆点区域点击状态
+  let isClcikOnDot = false;  
+
+  // 圆点区域点击事件监听
+  dot_eara.onmousedown = function(){
+    brand.style.display = "block";
+    isClcikOnDot = true;
+  }
+   // 盒子区域鼠标按下状态监听
+  box.onmousedown = function(){
+     isMouseDown = true;
+  }
+  // 盒子区域鼠标抬起状态监听
+  box.onmouseup = function(){
+    isMouseDown = false;
+    isClcikOnDot = false;
+    setTimeout(()=>{
+      brand.style.display = "none";
+    },1000);
+  }
+  // 盒子区域鼠标移动监听
+  box.onmousemove = function(e){
+    // console.log(`isMouseDown ${isMouseDown} + isClcikOnDot ${isClcikOnDot}`);
+    
+    // x为鼠标移动的坐标值,-100是因为process距离左边100px
+    let x = Math.floor(e.pageX - box.offsetLeft - 100);
+      if( isClcikOnDot && isMouseDown){
+        if(x <= 300 && x >= 0){
+          percent.style.left = x + "px";
+          left.style.width =x + "px";
+          brand.innerHTML = Math.round(x/3)+ "%";
+        }else if(x < 0){
+          // 用于处理鼠标卡顿无法到0%的问题
+          percent.style.left = "0px";
+          left.style.width = "0px";
+          brand.innerHTML = "0%";
+        }else{
+          // 用于处理鼠标卡顿无法到100%的问题
+          percent.style.left = "300px";
+          left.style.width = "300px";
+          brand.innerHTML = "100%";
+        }   
+      }
+      // process上的点击事件监听
+      process.onclick = function(){
+        if(x <= 300 && x >= 0){
+          percent.style.left = x + "px";
+          left.style.width =x + "px";
+          brand.innerHTML = Math.round(x/3)+ "%";
+          brand.style.display = "block";
+          setTimeout(()=>{
+            brand.style.display = "none";
+          },1000);
+        }
+      }
+    }
+
+</script>
+</body>
+</html>
