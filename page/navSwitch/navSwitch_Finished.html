@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      a{
+        text-decoration: none;
+      }
+      body{
+        background-color: rgba(246,246,246, .9);
+        /* 使用苹果字体 */
+        font-family: "SF Pro SC","SF Pro Text","SF Pro Icons","PingFang SC","Helvetica Neue","Helvetica","Arial",sans-serif;
+        /* 禁止垂直方向滚动条 */
+        overflow-y: hidden;
+      }
+      /* 版心 */
+      .w{
+        margin: 0 auto;
+        width: 1200px;
+      }
+      nav{
+        margin-top: 10px;
+        padding:0 20px;
+        border-bottom: 4px solid #003366;
+       /* 禁止文字被选中 */
+        user-select: none;
+        /* 禁止拖拽效果 */
+        -webkit-user-drag: none;
+      }
+      .demo .tab{
+        overflow: hidden;
+      }
+      .demo .logo{
+        float: left;
+      }
+      .logo h1{
+        padding: 2px 20px;
+        height: 44px;
+        line-height: 44px;
+        color: #003366;
+        font-size: 44px;
+        font-weight: 400;
+      }
+      .demo .nav{
+        float: right;
+      }
+      .nav{
+        height: 50px;
+        line-height: 50px;
+      }
+      .nav span{
+        float: left;
+        padding: 0 40px;
+        border-radius: 10px 10px 0 0;
+        /* color: #003366; */
+        color: #003366;
+        font-size: 22px;
+        font-weight: 400;
+        cursor: pointer;
+        transition: ease .3s;
+      }
+
+      .item > div{
+        display: none;
+        width: 100%;
+        height: 1000px;
+        line-height: 650px;
+        text-align: center;
+        font-size: 50px;
+        color: #003366;
+      }
+
+      .nav .on{
+        background-color: #003366;
+        color: #fff;
+      }
+      .item .active{
+        display: block;
+      }
+      
+    </style>
+  </head>
+  <body>
+    <!-- 原生JS完成点击切换tab栏 -->
+    <div class="demo">
+      <nav>
+        <div class="w">
+          <div class="tab">
+            <div class="logo">
+              <a href="#">
+                <h1>My Blog</h1>
+              </a>
+            </div>
+            <div class="nav">
+              <span class="on">Home</span>
+              <span>Linux</span>
+              <span>Java</span>
+              <span>Python</span>
+              <span>Javascript</span>
+              <span>About</span>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div class="item">
+        <div class="active">Home</div>
+        <div>Linux</div>
+        <div>Java</div>
+        <div>Python</div>
+        <div>Javascript</div>
+        <div>About</div>
+      </div>
+    </div>
+
+    <script>
+      // 1.获取标签元素
+      let navSpans = document.querySelectorAll('.nav span');
+      // 2.获取标签点击后下方切换元素
+      let itemDivs = document.querySelectorAll('.item div');
+      
+      for(let i = 0; i < navSpans.length; i++){
+        navSpans[i].onclick = function(){
+          // 排他思想
+          // 设置标签切换
+          document.querySelector('.nav span.on').classList.remove('on');
+          this.classList.add('on');
+          // 下方项目切换item
+          document.querySelector('.item div.active').classList.remove('active');
+          itemDivs[i].classList.add('active');
+
+
+        }
+      }
+
+
+
+    </script>
+  </body>
+</html>
