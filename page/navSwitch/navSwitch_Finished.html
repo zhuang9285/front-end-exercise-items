@@ -67,7 +67,6 @@
         cursor: pointer;
         transition: ease .3s;
       }
-
       .item > div{
         display: none;
         width: 100%;
@@ -121,27 +120,24 @@
     </div>
 
     <script>
-      // 1.获取标签元素
+      // 注意排他思想的使用
+
+      // 1.获取标签元素span
       let navSpans = document.querySelectorAll('.nav span');
-      // 2.获取标签点击后下方切换元素
+      // 标签span点击后作用的元素
       let itemDivs = document.querySelectorAll('.item div');
       
       for(let i = 0; i < navSpans.length; i++){
         navSpans[i].onclick = function(){
-          // 排他思想
-          // 设置标签切换
+          // 标签切换
           document.querySelector('.nav span.on').classList.remove('on');
           this.classList.add('on');
-          // 下方项目切换item
+          // 下方内容
           document.querySelector('.item div.active').classList.remove('active');
           itemDivs[i].classList.add('active');
 
-
         }
       }
-
-
-
     </script>
   </body>
 </html>
