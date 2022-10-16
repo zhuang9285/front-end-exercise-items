@@ -180,7 +180,7 @@
           let x = e.pageX - gjDom.offsetLeft -262;
           let y = e.pageY - gjDom.offsetTop-90;
           console.log(isDraw,x,y);
-          ctx.context.globalCompositeOperation='destination-out';          
+          ctx.globalCompositeOperation='destination-out';          
           ctx.closePath();      
           ctx.arc(x, y, 15, 0, Math.PI * 2);
           ctx.fill();
