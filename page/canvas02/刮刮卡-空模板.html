@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>刮刮卡抽奖页面</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+    body{
+      background-color: rgb(246, 246, 246);
+    }
+    .demo{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      width: 360px;
+      height: 600px;
+      background-color: rgb(245, 245, 245);
+      border: 1px solid #333;
+      overflow: hidden;
+    }
+    .demo .top{
+      position: absolute;
+      width: 358px;
+      height: 150px;
+      background-color: #C2A681;
+      border-radius: 0 0 190px 190px;
+    }
+    .demo .open{
+      position: absolute;
+      top: 120px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 60px;
+      background-color: #C2A681;
+      border: 3px solid #a17a4f;
+      border-radius: 50%;
+      line-height: 50px;
+      text-align: center;
+      font-size: 40px;
+      color: #a17a4f;
+      z-index: 1;
+    }
+    .demo .titlt p{
+      margin-top: 220px;
+      text-align: center;
+      font-size: 54px;
+      font-weight: 900;
+      color: #a17a4f;
+    }
+    .demo .titlt .content{
+      position: relative;
+      margin: 10px auto;
+      width: 200px; 
+      height: 70px;
+      /* border: 1px solid red; */
+      color: #a27b53;
+    }
+    .demo .content span{
+      position: absolute;
+      display: inline-block;
+      /* border: 1px solid red; */
+    }
+    .demo .content span:first-child{
+      left: 28px;
+      color: #a27b53;
+      font-size: 29px;
+    }
+    .demo .content span:nth-child(2){
+      left: 28px;
+      top: 34px;
+      color: #a27b53;
+      font-size: 21px;
+    }
+    .demo .content span:last-child{
+      right: 23px;
+      top: -8px;
+      font-size: 56px;
+      font-weight: 900;
+    }
+    #gj{
+      position: relative;
+      width: 100%;
+      height: 128px;
+    }
+    #gj #jp,
+    #gj #canvas{
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 316px;
+      height: 108px;
+    }
+    #gj #jp{
+
+      text-align: center;
+      line-height: 108px;
+      font-size: 40px;
+      font-weight: 400;
+      background-color: #fff;
+    }
+    .booter{
+      position: absolute;
+      bottom: 0;
+      width: 360px;
+      height: 40px;
+      background-color: #C2A681;
+    }
+  </style>
+</head>
+<body>
+  <div class="demo">
+    <div class="top">
+      <div class="open">開</div>
+    </div>
+    <div class="titlt">
+      <p>幸运刮刮卡</p>
+      <div class="content">
+        <span>刮一刮</span>
+        <span>等你来拿</span>
+        <span>奖</span>
+      </div>
+    </div>
+    <!-- 刮奖区 -->
+    <div id="gj">
+      <!-- 奖品层 -->
+      <div id="jp"></div>
+      <!-- 刮奖层 -->
+      <canvas id="canvas" width="316" height="108"></canvas>
+    </div>
+    <div class="booter"></div>
+    <script>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    </script>
+  </div>
+</body>
+</html>
