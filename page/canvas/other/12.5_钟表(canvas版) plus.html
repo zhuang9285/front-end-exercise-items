@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <canvas id="canvas" width="800" height="600"></canvas>
+
+  <script>
+    let canvas = document.querySelector('#canvas');
+    let ctx = canvas.getContext('2d');
+
+    // 7. 设置定时器，每秒刷新时间并重绘指针
+    setInterval(()=>renderClock(),1000)
+
+      // 6.封装函数
+      function renderClock(){
+        // 8.最初状态
+        ctx.clearRect(0,0,800,600);
+        ctx.save();
+         // 2.移动坐标轴的原点到圆心
+        ctx.translate(400,300);
+        // 5. 将坐标轴逆时针旋转90°
+        ctx.rotate(-Math.PI / 2);
+
+        // 1.绘制表盘的圆
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(0,0,200,0,2 * Math.PI);
+        ctx.lineWidth = 10;
+        ctx.strokeStyle = 'darkgrey';
+        ctx.stroke();
+        ctx.closePath();
+
+        // 3.绘制刻度
+        // 3.1分针刻度
+        for(let i = 0; i < 60; i++){
+          ctx.rotate(2*Math.PI/60);
+          ctx.beginPath();
+          ctx.moveTo(187,0);
+          ctx.lineTo(195,0);
+          ctx.lineWidth = 3;
+          ctx.strokeStyle = 'darkgrey';
+          ctx.stroke();
+          ctx.closePath();
+        }
+        ctx.restore();
+        ctx.save();
+
+        // 3.2 时针刻度
+        for(let i = 0; i < 12; i++){
+          ctx.rotate(2*Math.PI/12);
+          ctx.beginPath();
+          ctx.moveTo(180,0);
+          ctx.lineTo(195,0);
+          ctx.lineWidth = 10;
+          ctx.strokeStyle = 'darkgrey';
+          ctx.stroke();
+          ctx.closePath();
+        }
+        ctx.restore();
+        ctx.save();
+
+        // 5.获取时间
+        let time = new Date();
+        let hour = time.getHours();
+        let min = time.getMinutes();
+        let seconds = time.getSeconds();
+
+        // 4.绘制指针
+        // 4.1绘制秒针
+        ctx.beginPath();
+        ctx.rotate(2 * Math.PI / 60 * seconds);
+        console.log(seconds);
+        ctx.moveTo(-30,0);
+        ctx.lineTo(170,0);
+        ctx.lineWidth= 6;
+        ctx.strokeStyle = 'red';
+        ctx.stroke();
+        ctx.closePath();
+        ctx.restore();
+        ctx.save();
+
+        // 4.2绘制分针
+        ctx.beginPath();
+        // 增加秒针对时针的影响
+        ctx.rotate(2 * Math.PI / 60 * min + 2 * Math.PI / 60 / 60 * seconds);
+        console.log(min);
+        ctx.moveTo(-20,0);
+        ctx.lineTo(155,0);
+        ctx.lineWidth= 7;
+        ctx.strokeStyle = 'green';
+        ctx.stroke();
+        ctx.closePath();
+        ctx.restore();
+        ctx.save();
+
+        // 4.3绘制时针
+        ctx.beginPath();
+        // 增加分针秒针对时针的影响
+        ctx.rotate(2 * Math.PI / 12 * hour + 2 * Math.PI / 12 / 60 * min + 2 * Math.PI / 12 / 60 / 60 * seconds);
+        ctx.moveTo(-10,0);
+        ctx.lineTo(140,0);
+        ctx.lineWidth= 8;
+        ctx.strokeStyle = 'blue';
+        ctx.stroke();
+        ctx.closePath();
+        ctx.restore();
+
+        // 10.绘制钟表圆点
+        ctx.beginPath();
+        ctx.arc(0,0,8,0,2*Math.PI);
+        ctx.fillStyle = 'orange';
+        ctx.fill();
+        ctx.closePath();
+
+        // 9.回到最初状态
+        ctx.restore();
+
+      } 
+
+  </script>
+</body>
+</html>
